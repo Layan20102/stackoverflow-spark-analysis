@@ -1,0 +1,12 @@
+1774280424248:cd src\\main\\scala
+1774280467399:exit
+1774280655819:spark-submit --class SQL_Analysis --master local[*] src/main/scala/SQL_Analysis.scala
+1774280699665:runMain SQL_Analysis
+1774282096805:# اخرج من sbt (اكتب exit)
+1774282096842:exit
+1774282131828:# شغل الكود مرة أخرى
+1774282131867:runMain SQL_Analysis
+1774282195138:cd src\\main\\scala
+1774282207038:exit
+1774282255381:runMain SQL_Analysis
+1774282558840:exit
