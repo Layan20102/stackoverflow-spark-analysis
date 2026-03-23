@@ -98,7 +98,7 @@ object SQL_Analysis {
     spark.sql(query3).show(truncate = false)
     
     // ============================================================
-    // QUERY 4: Top Programming Languages by Developer Type (CORRECTED)
+    // QUERY 4: Top Programming Languages by Developer Type
     // ============================================================
     println("\n" + "=" * 60)
     println("QUERY 4: Top Programming Languages per Developer Type")
@@ -135,40 +135,13 @@ object SQL_Analysis {
     spark.sql(query4).show(20, truncate = false)
     
     // ============================================================
-    // QUERY 5: Skills Gap Analysis (Simplified)
+    // QUERY 5: Salary Distribution by Age and Experience
     // ============================================================
     println("\n" + "=" * 60)
-    println("QUERY 5: Skills Gap Analysis for AI/ML")
+    println("QUERY 5: Salary Distribution by Age and Experience Groups")
     println("=" * 60)
     
     val query5 = """
-      SELECT 
-        language,
-        COUNT(*) as demand_in_ai_ml,
-        SUM(CASE WHEN DevType_segment NOT IN ('Data', 'AI/ML', 'Student/Academic') THEN 1 ELSE 0 END) as supply_in_non_ai
-      FROM (
-        SELECT 
-          DevType_segment,
-          EXPLODE(SPLIT(LanguageWorkedWith, ';')) as language
-        FROM developer_survey
-        WHERE Salary_num > 0
-      ) t
-      WHERE DevType_segment IN ('Data', 'AI/ML')
-      GROUP BY language
-      ORDER BY demand_in_ai_ml DESC
-      LIMIT 10
-    """
-    
-    spark.sql(query5).show(truncate = false)
-
-    // ============================================================
-    // QUERY 6: Salary Distribution by Age and Experience
-    // ============================================================
-    println("\n" + "=" * 60)
-    println("QUERY 6: Salary Distribution by Age and Experience Groups")
-    println("=" * 60)
-    
-    val query6 = """
       SELECT 
         CASE 
           WHEN Age LIKE '18-24%' THEN '18-24 (Early Career)'
@@ -195,16 +168,16 @@ object SQL_Analysis {
       LIMIT 20
     """
     
-    spark.sql(query6).show(truncate = false)
+    spark.sql(query5).show(truncate = false)
     
     // ============================================================
-    // QUERY 7: Global Talent Distribution
+    // QUERY 6: Global Talent Distribution
     // ============================================================
     println("\n" + "=" * 60)
-    println("QUERY 7: Global Talent Distribution - Top 15 Countries")
+    println("QUERY 6: Global Talent Distribution - Top 15 Countries")
     println("=" * 60)
     
-    val query7 = """
+    val query6 = """
       SELECT 
         Country,
         COUNT(*) as developer_count,
@@ -219,7 +192,7 @@ object SQL_Analysis {
       LIMIT 15
     """
     
-    spark.sql(query7).show(truncate = false)
+    spark.sql(query6).show(truncate = false)
     
     // ============================================================
     // SUMMARY
