@@ -44,24 +44,24 @@ object SQL_Analysis {
     spark.sql(query1).show(10, truncate = false)
     
     // ============================================================
-    // QUERY 2: Educational Pathways to AI/ML Roles
+    // QUERY 2: Educational Pathways to Data Roles
     // ============================================================
     println("\n" + "=" * 60)
-    println("QUERY 2: Educational Pathways to AI/ML Roles")
+    println("QUERY 2: Educational Pathways to Data Roles")
     println("=" * 60)
     
     val query2 = """
-      SELECT 
-        UndergradMajor,
-        COUNT(*) as total_developers,
-        SUM(CASE WHEN DevType_segment IN ('Data', 'AI/ML') THEN 1 ELSE 0 END) as ai_ml_count,
-        ROUND(SUM(CASE WHEN DevType_segment IN ('Data', 'AI/ML') THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 1) as pct_in_ai_ml
-      FROM developer_survey
-      WHERE UndergradMajor IS NOT NULL
-      GROUP BY UndergradMajor
-      HAVING total_developers >= 30
-      ORDER BY pct_in_ai_ml DESC
-      LIMIT 10
+ SELECT 
+  UndergradMajor,
+  COUNT(*) as total_developers,
+  SUM(CASE WHEN DevType_segment = 'Data' THEN 1 ELSE 0 END) as data_roles_count,
+  ROUND(SUM(CASE WHEN DevType_segment = 'Data' THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 1) as pct_in_data_roles
+FROM developer_survey
+WHERE UndergradMajor IS NOT NULL
+GROUP BY UndergradMajor
+HAVING total_developers >= 30
+ORDER BY pct_in_data_roles DESC
+LIMIT 10
     """
     
     spark.sql(query2).show(truncate = false)
