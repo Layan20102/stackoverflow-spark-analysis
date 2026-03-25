@@ -213,18 +213,18 @@ LIMIT 10
     println("=" * 60)
     
     val query6 = """
-      SELECT 
-        Country,
-        COUNT(*) as developer_count,
-        ROUND(AVG(Salary_num), 0) as avg_salary_usd,
-        SUM(CASE WHEN DevType_segment IN ('Data', 'AI/ML') THEN 1 ELSE 0 END) as ai_ml_count,
-        ROUND(SUM(CASE WHEN DevType_segment IN ('Data', 'AI/ML') THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 1) as pct_ai_ml
-      FROM developer_survey
-      WHERE Country IS NOT NULL AND Salary_num > 0
-      GROUP BY Country
-      HAVING developer_count >= 50
-      ORDER BY developer_count DESC
-      LIMIT 15
+SELECT 
+  Country,
+  COUNT(*) as developer_count,
+  ROUND(AVG(Salary_num), 0) as avg_salary_usd,
+  SUM(CASE WHEN DevType_segment = 'Data' THEN 1 ELSE 0 END) as data_roles_count,
+  ROUND(SUM(CASE WHEN DevType_segment = 'Data' THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 1) as pct_data_roles
+FROM developer_survey
+WHERE Country IS NOT NULL AND Salary_num > 0
+GROUP BY Country
+HAVING developer_count >= 50
+ORDER BY developer_count DESC
+LIMIT 15
     """
     
     spark.sql(query6).show(truncate = false)
